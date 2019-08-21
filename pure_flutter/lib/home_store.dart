@@ -13,12 +13,16 @@ class HomeStore {
   BehaviorSubject<HomeState> state = BehaviorSubject.seeded(HomeState(true, null));
 
   void init() async {
-    state.value = HomeState(true, null);
-    final user = await getUser('kotlin', isOrg: true);
-    state.value = HomeState(false, user);
+    fetch('kotlin', true);
   }
 
   void dispose() {
     state.close();
+  }
+
+  void fetch(String username, bool isOrg) async {
+    state.value = HomeState(true, null);
+    final user = await getUser(username, isOrg: isOrg);
+    state.value = HomeState(false, user);
   }
 }

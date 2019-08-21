@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pure_flutter/home_store.dart';
+import 'package:pure_flutter/input_page.dart';
 import 'package:pure_flutter/repo_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,17 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('How Kotlin Met Flutter'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              final result = await Navigator.push(context, InputPage.route());
+              if (result != null) {
+                store.fetch(result.username, result.isOrg);
+              }
+            },
+          ),
+        ],
       ),
       body: StreamBuilder<HomeState>(
         stream: store.state,
