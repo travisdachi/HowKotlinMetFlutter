@@ -12,9 +12,7 @@ class HomeState {
 class HomeStore {
   BehaviorSubject<HomeState> state = BehaviorSubject.seeded(HomeState(true, null));
 
-  void init() async {
-    fetch('kotlin', true);
-  }
+  void init() => fetch('kotlin', true);
 
   void dispose() {
     state.close();
