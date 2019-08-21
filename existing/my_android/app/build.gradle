@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.example.myandroid"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -27,9 +27,25 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url '../../my_flutter/build/host/outputs/repo'
+        // This is relative to the location of the build.gradle file
+        // if using a relative path.
+    }
+}
+
 dependencies {
+
+    releaseImplementation('com.example.my_flutter:flutter_release:1.0@aar') {
+        transitive = true
+    }
+    debugImplementation('com.example.my_flutter:flutter_debug:1.0@aar') {
+        transitive = true
+    }
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
