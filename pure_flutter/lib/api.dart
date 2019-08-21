@@ -41,7 +41,7 @@ Future<User> getUser(String owner, {bool isOrg = false}) {
     },
     options: Options(
       headers: {
-        'Authorization': 'Bearer 33745460051377c5152150127a75aaf40beb49c8',
+        'Authorization': 'Bearer YOUR_GITHUB_TOKEN_HERE',
       },
     ),
   )
