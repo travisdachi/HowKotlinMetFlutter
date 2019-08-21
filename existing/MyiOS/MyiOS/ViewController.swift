@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Flutter
 
 class ViewController: UIViewController {
 
@@ -15,6 +16,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func onGoFlutterClick(_ sender: Any) {
+        let flutterVC = FlutterViewController(nibName: nil, bundle: nil)
+        present(flutterVC, animated: true, completion: nil)
+    }
+    
 }
 
