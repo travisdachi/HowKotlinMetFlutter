@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pure_flutter/contributor_widget.dart';
-import 'package:pure_flutter/models.dart';
+import 'package:pure_flutter/home/home_store_state.dart';
 
 class RepoWidget extends StatelessWidget {
   final String name;

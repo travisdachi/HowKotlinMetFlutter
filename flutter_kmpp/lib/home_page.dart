@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pure_flutter/home_store.dart';
+import 'package:pure_flutter/home/home_store.dart';
+import 'package:pure_flutter/home/home_store_action.dart';
+import 'package:pure_flutter/home/home_store_event.dart';
+import 'package:pure_flutter/home/home_store_state.dart';
 import 'package:pure_flutter/input_page.dart';
 import 'package:pure_flutter/repo_widget.dart';
 
@@ -10,12 +13,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeStore store;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     store = HomeStore();
     store.init();
+    store.event.listen((event) {
+      if (event is HomeStoreEvent_FetchError) {
+        scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(event.message),
+        ));
+      }
+    });
+    store.dispatch(HomeStoreAction_Fetch('kotlin', true));
   }
 
   @override
@@ -27,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('How Kotlin Met Flutter'),
@@ -36,17 +49,17 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               final result = await Navigator.push(context, InputPage.route());
               if (result != null) {
-                store.fetch(result.username, result.isOrg);
+                store.dispatch(HomeStoreAction_Fetch(result.username, result.isOrg));
               }
             },
           ),
         ],
       ),
-      body: StreamBuilder<HomeState>(
+      body: StreamBuilder<HomeStoreState>(
         stream: store.state,
         builder: (context, snap) {
           final state = snap.data;
-          if (state == null || state.isLoading) {
+          if (state == null || state.loading || state.user == null) {
             return Center(child: CircularProgressIndicator());
           } else {
             final user = state.user;
